@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A91FC2901BD2E8FC003CB5B8 /* SCModalPushPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91FC28F1BD2E8FC003CB5B8 /* SCModalPushPopAnimator.swift */; settings = {ASSET_TAGS = (); }; };
 		A973ADFF1BD2C535001AE1E2 /* PostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A973ADFE1BD2C535001AE1E2 /* PostsTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		A973AE011BD2C615001AE1E2 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A973AE001BD2C615001AE1E2 /* Post.swift */; settings = {ASSET_TAGS = (); }; };
 		A97F51401BD2C87A00CB3214 /* Reddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97F513F1BD2C87A00CB3214 /* Reddit.swift */; settings = {ASSET_TAGS = (); }; };
 		A97F51421BD2C90100CB3214 /* RedditLiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97F51411BD2C90100CB3214 /* RedditLiveTests.swift */; settings = {ASSET_TAGS = (); }; };
 		A97F51451BD2DB4F00CB3214 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97F51441BD2DB4F00CB3214 /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
+		A97F51471BD2E2F500CB3214 /* PostSFSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97F51461BD2E2F500CB3214 /* PostSFSafariViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		A982153D1BD2C0580043D69E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A982153C1BD2C0580043D69E /* AppDelegate.swift */; };
 		A98215441BD2C0580043D69E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A98215421BD2C0580043D69E /* Main.storyboard */; };
 		A98215461BD2C0580043D69E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A98215451BD2C0580043D69E /* Assets.xcassets */; };
@@ -38,11 +40,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A91FC28F1BD2E8FC003CB5B8 /* SCModalPushPopAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCModalPushPopAnimator.swift; sourceTree = "<group>"; };
 		A973ADFE1BD2C535001AE1E2 /* PostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsTableViewController.swift; sourceTree = "<group>"; };
 		A973AE001BD2C615001AE1E2 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A97F513F1BD2C87A00CB3214 /* Reddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reddit.swift; sourceTree = "<group>"; };
 		A97F51411BD2C90100CB3214 /* RedditLiveTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedditLiveTests.swift; sourceTree = "<group>"; };
 		A97F51441BD2DB4F00CB3214 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		A97F51461BD2E2F500CB3214 /* PostSFSafariViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSFSafariViewController.swift; sourceTree = "<group>"; };
 		A98215391BD2C0580043D69E /* Karma.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karma.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A982153C1BD2C0580043D69E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A98215431BD2C0580043D69E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				A97F51441BD2DB4F00CB3214 /* SwiftyJSON.swift */,
+				A91FC28F1BD2E8FC003CB5B8 /* SCModalPushPopAnimator.swift */,
 			);
 			name = lib;
 			sourceTree = "<group>";
@@ -122,6 +127,7 @@
 				A98215471BD2C0580043D69E /* LaunchScreen.storyboard */,
 				A982154A1BD2C0580043D69E /* Info.plist */,
 				A97F513F1BD2C87A00CB3214 /* Reddit.swift */,
+				A97F51461BD2E2F500CB3214 /* PostSFSafariViewController.swift */,
 			);
 			path = Karma;
 			sourceTree = "<group>";
@@ -277,7 +283,9 @@
 			files = (
 				A973AE011BD2C615001AE1E2 /* Post.swift in Sources */,
 				A982153D1BD2C0580043D69E /* AppDelegate.swift in Sources */,
+				A97F51471BD2E2F500CB3214 /* PostSFSafariViewController.swift in Sources */,
 				A973ADFF1BD2C535001AE1E2 /* PostsTableViewController.swift in Sources */,
+				A91FC2901BD2E8FC003CB5B8 /* SCModalPushPopAnimator.swift in Sources */,
 				A97F51451BD2DB4F00CB3214 /* SwiftyJSON.swift in Sources */,
 				A97F51401BD2C87A00CB3214 /* Reddit.swift in Sources */,
 			);
