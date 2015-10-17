@@ -1,13 +1,17 @@
 import UIKit
 import SafariServices
 
-class PostsTableViewController: UITableViewController, SFSafariViewControllerDelegate, UIViewControllerTransitioningDelegate {
+class PostsTableViewController: UITableViewController, SFSafariViewControllerDelegate, UIViewControllerTransitioningDelegate, UIViewControllerPreviewingDelegate {
 
     var posts = [Post]()
     let animator = SCModalPushPopAnimator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: view)
+        }
 
         Reddit.sharedInstance.frontpage { (posts, error) -> Void in
             if let error = error {
@@ -77,13 +81,40 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
         return self.animator.percentageDriven ? self.animator : nil
     }
 
+    // MARK: - UIViewControllerPreviewingDelegate
+
+    // "peek"
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRowAtPoint(location), cell = tableView.cellForRowAtIndexPath(indexPath) else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        let post = posts[indexPath.row]
+        let safariViewController = safariViewControllerForURL(post.url)
+
+        return safariViewController
+    }
+
+    // "pop"
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        showViewController(viewControllerToCommit, sender: self)
+    }
+
     // MARK: - Custom Methods
-    
-    func showSafariViewController(url: NSURL){
+
+    func safariViewControllerForURL(url: NSURL) -> PostSFSafariViewController {
         let safariViewController = PostSFSafariViewController(URL: url, entersReaderIfAvailable: true)
         safariViewController.delegate = self;
         safariViewController.transitioningDelegate = self
-        self.presentViewController(safariViewController, animated: true) { () -> Void in
+
+        return safariViewController
+    }
+    
+    func showSafariViewController(url: NSURL) {
+        let safariViewController = safariViewControllerForURL(url)
+        presentViewController(safariViewController, animated: true) { () -> Void in
             let recognizer = UIScreenEdgePanGestureRecognizer(target: self, action: "handleGesture:")
             recognizer.edges = UIRectEdge.Left
             safariViewController.edgeView?.addGestureRecognizer(recognizer)
