@@ -48,7 +48,8 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let post = posts[indexPath.row]
-        showSafariViewController(post.url)
+        let safariViewController = safariViewControllerForURL(post.url)
+        presentSafariViewController(safariViewController)
     }
 
     // MARK: - Navigation
@@ -99,7 +100,11 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
 
     // "pop"
     func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
-        showViewController(viewControllerToCommit, sender: self)
+        if let vc = viewControllerToCommit as? PostSFSafariViewController {
+            presentSafariViewController(vc)
+        } else {
+            showViewController(viewControllerToCommit, sender: self)
+        }
     }
 
     // MARK: - Custom Methods
@@ -112,8 +117,7 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
         return safariViewController
     }
     
-    func showSafariViewController(url: NSURL) {
-        let safariViewController = safariViewControllerForURL(url)
+    func presentSafariViewController(safariViewController: PostSFSafariViewController) {
         presentViewController(safariViewController, animated: true) { () -> Void in
             let recognizer = UIScreenEdgePanGestureRecognizer(target: self, action: "handleGesture:")
             recognizer.edges = UIRectEdge.Left
