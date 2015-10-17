@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  Karma
-//
-//  Created by Marco Chomut on 10/17/15.
-//  Copyright © 2015 Marco Chomut. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain

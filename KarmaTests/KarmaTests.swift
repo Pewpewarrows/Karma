@@ -1,11 +1,3 @@
-//
-//  KarmaTests.swift
-//  KarmaTests
-//
-//  Created by Marco Chomut on 10/17/15.
-//  Copyright © 2015 Marco Chomut. All rights reserved.
-//
-
 import XCTest
 @testable import Karma
 
