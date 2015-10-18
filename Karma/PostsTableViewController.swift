@@ -99,17 +99,24 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
     // MARK: - Actions
 
     @IBAction func pullToRefresh(sender: UIRefreshControl) {
-        reloadData { () -> Void in
+        reloadData({ () -> Void in
+            // TODO: should the formatter be a class variable?
+            let ptrDateFormatter = NSDateFormatter()
+            ptrDateFormatter.dateFormat = "MMM d, h:mm a"
+            sender.attributedTitle = NSAttributedString(string: String.localizedStringWithFormat("Last update: %@", ptrDateFormatter.stringFromDate(NSDate())))
             sender.endRefreshing()
-        }
+        }, errorCallback: { () -> Void in
+            sender.endRefreshing()
+        })
     }
 
     // MARK: - Internal Methods
 
-    func reloadData(callback: (() -> Void)?=nil) {
+    func reloadData(successCallback: (() -> Void)?=nil, errorCallback: (() -> Void)?=nil) {
         Reddit.sharedInstance.frontpage { (posts, error) -> Void in
             if let error = error {
                 print(error.localizedDescription)
+                errorCallback?()
                 return
             }
 
@@ -117,7 +124,7 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
 
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.tableView.reloadData()
-                callback?()
+                successCallback?()
             })
         }
     }
