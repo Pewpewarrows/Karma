@@ -13,18 +13,7 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
             registerForPreviewingWithDelegate(self, sourceView: view)
         }
 
-        Reddit.sharedInstance.frontpage { (posts, error) -> Void in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-
-            self.posts = posts!
-
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.tableView.reloadData()
-            })
-        }
+        reloadData()
     }
 
     // MARK: - Table view data source
@@ -107,7 +96,31 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
         }
     }
 
-    // MARK: - Custom Methods
+    // MARK: - Actions
+
+    @IBAction func pullToRefresh(sender: UIRefreshControl) {
+        reloadData { () -> Void in
+            sender.endRefreshing()
+        }
+    }
+
+    // MARK: - Internal Methods
+
+    func reloadData(callback: (() -> Void)?=nil) {
+        Reddit.sharedInstance.frontpage { (posts, error) -> Void in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            self.posts = posts!
+
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+                callback?()
+            })
+        }
+    }
 
     func safariViewControllerForURL(url: NSURL) -> PostSFSafariViewController {
         let safariViewController = PostSFSafariViewController(URL: url, entersReaderIfAvailable: true)
@@ -125,7 +138,7 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
         }
     }
 
-    func handleGesture(recognizer:UIScreenEdgePanGestureRecognizer) {
+    func handleGesture(recognizer: UIScreenEdgePanGestureRecognizer) {
         self.animator.percentageDriven = true
         let percentComplete = recognizer.locationInView(view).x / view.bounds.size.width / 2.0
         switch recognizer.state {

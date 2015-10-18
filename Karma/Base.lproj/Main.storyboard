@@ -41,6 +41,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="JoO-4h-gEl"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="dmt-Yl-dfT">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <connections>
+                            <action selector="pullToRefresh:" destination="75j-fT-UqL" eventType="valueChanged" id="9wx-0h-c2B"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IKE-eZ-1Qs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
