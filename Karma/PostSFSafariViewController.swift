@@ -4,6 +4,7 @@ import UIKit
 class PostSFSafariViewController: SFSafariViewController {
 
     private var _edgeView: UIView?
+    private var _initialURL: NSURL!
 
     var edgeView: UIView? {
         get {
@@ -24,5 +25,23 @@ class PostSFSafariViewController: SFSafariViewController {
 
             return _edgeView
         }
+    }
+
+    // MARK: - Initializers
+
+    override init(URL: NSURL, entersReaderIfAvailable: Bool) {
+        super.init(URL: URL, entersReaderIfAvailable: entersReaderIfAvailable)
+        _initialURL = URL
+    }
+
+    // MARK: - Preview actions
+
+    override func previewActionItems() -> [UIPreviewActionItem] {
+        return [
+            UIPreviewAction(title: "Share", style: UIPreviewActionStyle.Default, handler: { (previewAction, viewController ) -> Void in
+                // TODO: it takes a relatively long time for the share controls to appear
+                shareItem(url: self._initialURL)
+            })
+        ]
     }
 }

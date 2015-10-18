@@ -20,6 +20,7 @@
 		A98215491BD2C0580043D69E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A98215471BD2C0580043D69E /* LaunchScreen.storyboard */; };
 		A98215541BD2C0580043D69E /* KarmaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98215531BD2C0580043D69E /* KarmaTests.swift */; };
 		A982155F1BD2C0580043D69E /* KarmaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A982155E1BD2C0580043D69E /* KarmaUITests.swift */; };
+		A9EF70C81BD44E5D0009E960 /* share.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF70C71BD44E5D0009E960 /* share.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		A982155A1BD2C0580043D69E /* KarmaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KarmaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A982155E1BD2C0580043D69E /* KarmaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KarmaUITests.swift; sourceTree = "<group>"; };
 		A98215601BD2C0580043D69E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9EF70C71BD44E5D0009E960 /* share.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = share.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				A982154A1BD2C0580043D69E /* Info.plist */,
 				A97F513F1BD2C87A00CB3214 /* Reddit.swift */,
 				A97F51461BD2E2F500CB3214 /* PostSFSafariViewController.swift */,
+				A9EF70C71BD44E5D0009E960 /* share.swift */,
 			);
 			path = Karma;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A973AE011BD2C615001AE1E2 /* Post.swift in Sources */,
+				A9EF70C81BD44E5D0009E960 /* share.swift in Sources */,
 				A982153D1BD2C0580043D69E /* AppDelegate.swift in Sources */,
 				A97F51471BD2E2F500CB3214 /* PostSFSafariViewController.swift in Sources */,
 				A973ADFF1BD2C535001AE1E2 /* PostsTableViewController.swift in Sources */,
