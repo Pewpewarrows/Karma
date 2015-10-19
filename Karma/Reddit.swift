@@ -7,8 +7,12 @@ class Reddit: NSObject {
     static let sharedInstance = Reddit()
     let baseURL = NSURL(string: "https://www.reddit.com")
 
-    func frontpage(completionHandler: (posts: [Post]?, error: NSError?) -> Void) {
-        let request = NSURLRequest(URL: NSURL(string: "/.json", relativeToURL: baseURL)!)
+    func subreddit(name: String? = nil, completionHandler: (posts: [Post]?, error: NSError?) -> Void) {
+        var urlPath = "/.json"
+        if let name = name {
+            urlPath = "/r/\(name).json"
+        }
+        let request = NSURLRequest(URL: NSURL(string: urlPath, relativeToURL: baseURL)!)
 
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             if let error = error {
@@ -46,6 +50,10 @@ class Reddit: NSObject {
         }
 
         task.resume()
+    }
+
+    func frontpage(completionHandler: (posts: [Post]?, error: NSError?) -> Void) {
+        return subreddit(completionHandler: completionHandler)
     }
 
 }

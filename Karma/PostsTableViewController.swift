@@ -5,6 +5,8 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
 
     var posts = [Post]()
     let animator = SCModalPushPopAnimator()
+    // TODO: allow navigating to the actual "frontpage" subreddit, store our state internally better
+    var currentSubreddit = "frontpage"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -14,6 +16,14 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
         }
 
         reloadData()
+    }
+
+    override func didMoveToParentViewController(parent: UIViewController?) {
+        super.didMoveToParentViewController(parent)
+
+        if parent != nil && self.navigationItem.titleView == nil {
+            updateNavigationItemTitleView()
+        }
     }
 
     // MARK: - Table view data source
@@ -112,8 +122,8 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
 
     // MARK: - Internal Methods
 
-    func reloadData(successCallback: (() -> Void)?=nil, errorCallback: (() -> Void)?=nil) {
-        Reddit.sharedInstance.frontpage { (posts, error) -> Void in
+    func reloadData(successCallback: (() -> Void)? = nil, errorCallback: (() -> Void)? = nil) {
+        func completionHandler(posts: [Post]?, error: NSError?) {
             if let error = error {
                 print(error.localizedDescription)
                 errorCallback?()
@@ -127,6 +137,59 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
                 successCallback?()
             })
         }
+
+        if currentSubreddit == "frontpage" {
+            Reddit.sharedInstance.frontpage(completionHandler)
+        } else {
+            Reddit.sharedInstance.subreddit(currentSubreddit, completionHandler: completionHandler)
+        }
+    }
+
+    func updateNavigationItemTitleView() {
+        let titleView = UILabel()
+        titleView.text = currentSubreddit == "frontpage" ? "Frontpage" : currentSubreddit
+        titleView.font = UIFont.boldSystemFontOfSize(17)
+        let width = titleView.sizeThatFits(CGSizeMake(CGFloat.max, CGFloat.max)).width
+        titleView.frame = CGRect(origin:CGPointZero, size:CGSizeMake(width, 500))
+        self.navigationItem.titleView = titleView
+
+        let recognizer = UITapGestureRecognizer(target: self, action: "titleWasTapped")
+        titleView.userInteractionEnabled = true
+        titleView.addGestureRecognizer(recognizer)
+    }
+
+    func titleWasTapped() {
+        let defaultSubreddit = "all"
+        let alert = UIAlertController(title: "Subreddit", message: "Enter the name of a subreddit to visit:", preferredStyle: UIAlertControllerStyle.Alert)
+        var inputTextField: UITextField?
+
+        alert.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            textField.placeholder = defaultSubreddit
+            inputTextField = textField
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        let defaultAction = UIAlertAction(title: "Go", style: UIAlertActionStyle.Default) { (action) -> Void in
+            guard let inputTextField = inputTextField else { return }
+            let subreddit = inputTextField.text ?? defaultSubreddit
+            self.changeToSubreddit(subreddit)
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func changeToSubreddit(subreddit: String) {
+        let previousSubreddit = currentSubreddit
+        currentSubreddit = subreddit
+
+        reloadData({ () -> Void in
+            self.updateNavigationItemTitleView()
+        }, errorCallback: { () -> Void in
+            self.currentSubreddit = previousSubreddit
+        })
     }
 
     func safariViewControllerForURL(url: NSURL) -> PostSFSafariViewController {
