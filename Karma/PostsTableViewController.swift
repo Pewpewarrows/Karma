@@ -4,6 +4,7 @@ import SafariServices
 class PostsTableViewController: UITableViewController, SFSafariViewControllerDelegate, UIViewControllerTransitioningDelegate, UIViewControllerPreviewingDelegate {
 
     var posts = [Post]()
+    var latestFullname: String?
     let animator = SCModalPushPopAnimator()
     // TODO: allow navigating to the actual "frontpage" subreddit, store our state internally better
     var currentSubreddit = "frontpage"
@@ -120,29 +121,62 @@ class PostsTableViewController: UITableViewController, SFSafariViewControllerDel
         })
     }
 
+    @IBAction func didTapMore(sender: UIButton) {
+        loadMoreData()
+    }
+
     // MARK: - Internal Methods
 
     func reloadData(successCallback: (() -> Void)? = nil, errorCallback: (() -> Void)? = nil) {
-        func completionHandler(posts: [Post]?, error: NSError?) {
+        func completionHandler(posts: [Post]?, latestFullname: String?, error: NSError?) {
             if let error = error {
                 print(error.localizedDescription)
                 errorCallback?()
                 return
             }
 
+            self.latestFullname = latestFullname!
             self.posts = posts!
 
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.tableView.reloadData()
+                self.scrollToTop()
                 successCallback?()
             })
         }
 
         if currentSubreddit == "frontpage" {
-            Reddit.sharedInstance.frontpage(completionHandler)
+            Reddit.sharedInstance.frontpage(completionHandler: completionHandler)
         } else {
             Reddit.sharedInstance.subreddit(currentSubreddit, completionHandler: completionHandler)
         }
+    }
+
+    func loadMoreData() {
+        func completionHandler(posts: [Post]?, latestFullname: String?, error: NSError?) {
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            self.latestFullname = latestFullname!
+            self.posts.appendContentsOf(posts!)
+
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+            })
+        }
+
+        if currentSubreddit == "frontpage" {
+            Reddit.sharedInstance.frontpage(latestFullname, completionHandler: completionHandler)
+        } else {
+            Reddit.sharedInstance.subreddit(currentSubreddit, after: latestFullname, completionHandler: completionHandler)
+        }
+    }
+
+    func scrollToTop() {
+        let topPath = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.scrollToRowAtIndexPath(topPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
     }
 
     func updateNavigationItemTitleView() {

@@ -20,7 +20,7 @@ class RedditLiveTests: XCTestCase {
     func testFrontpage() {
         let expectation = expectationWithDescription("Reddit Frontpage")
 
-        Reddit.sharedInstance.frontpage { (posts, error) -> Void in
+        Reddit.sharedInstance.frontpage { (posts, latestFullname, error) -> Void in
             XCTAssertNil(error)
             if let posts = posts {
                 XCTAssertGreaterThan(posts.count, 0)

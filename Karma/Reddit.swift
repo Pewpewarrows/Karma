@@ -5,18 +5,33 @@ let redditErrorDomain = NSBundle.mainBundle().bundleIdentifier!
 class Reddit: NSObject {
 
     static let sharedInstance = Reddit()
-    let baseURL = NSURL(string: "https://www.reddit.com")
 
-    func subreddit(name: String? = nil, completionHandler: (posts: [Post]?, error: NSError?) -> Void) {
-        var urlPath = "/.json"
+    func subreddit(name: String? = nil, after: String? = nil, completionHandler: (posts: [Post]?, latestFullname: String?, error: NSError?) -> Void) {
+        let components = NSURLComponents()
+        components.scheme = "https"
+        components.host = "www.reddit.com"
+
         if let name = name {
-            urlPath = "/r/\(name).json"
+            components.path = "/r/\(name).json"
+        } else {
+            components.path = "/.json"
         }
-        let request = NSURLRequest(URL: NSURL(string: urlPath, relativeToURL: baseURL)!)
+
+        var queryItems: [NSURLQueryItem] = (components.queryItems ?? [])
+        queryItems.append(NSURLQueryItem(name: "raw_json", value: "1"))
+
+        if let after = after {
+            queryItems.append(NSURLQueryItem(name: "after", value: after))
+            queryItems.append(NSURLQueryItem(name: "limit", value: "100"))
+        }
+
+        components.queryItems = queryItems
+
+        let request = NSURLRequest(URL: components.URL!)
 
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             if let error = error {
-                completionHandler(posts: nil, error: error)
+                completionHandler(posts: nil, latestFullname: nil, error: error)
                 return
             }
 
@@ -27,7 +42,7 @@ class Reddit: NSObject {
 
             if response.statusCode != 200 {
                 // TODO: investigate using enums for error codes
-                completionHandler(posts: nil, error: NSError(domain: redditErrorDomain, code: 1, userInfo: [
+                completionHandler(posts: nil, latestFullname: nil, error: NSError(domain: redditErrorDomain, code: 1, userInfo: [
                     NSLocalizedDescriptionKey: NSHTTPURLResponse.localizedStringForStatusCode(response.statusCode)
                 ]))
                 return
@@ -45,15 +60,16 @@ class Reddit: NSObject {
                 post.url = NSURL(string: jsonPost["data"]["url"].stringValue)
                 posts.append(post)
             }
+            let latestFullname = json["data"]["after"].stringValue
 
-            completionHandler(posts: posts, error: nil)
+            completionHandler(posts: posts, latestFullname: latestFullname, error: nil)
         }
 
         task.resume()
     }
 
-    func frontpage(completionHandler: (posts: [Post]?, error: NSError?) -> Void) {
-        return subreddit(completionHandler: completionHandler)
+    func frontpage(after: String? = nil, completionHandler: (posts: [Post]?, latestFullname: String?, error: NSError?) -> Void) {
+        return subreddit(after: after, completionHandler: completionHandler)
     }
 
 }

@@ -13,6 +13,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="nMv-Rt-dGa">
+                            <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j3L-GZ-kzd">
+                                    <rect key="frame" x="282" y="7" width="36" height="30"/>
+                                    <animations/>
+                                    <state key="normal" title="More"/>
+                                    <connections>
+                                        <action selector="didTapMore:" destination="75j-fT-UqL" eventType="touchUpInside" id="Cy6-GW-1qY"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="j3L-GZ-kzd" firstAttribute="centerX" secondItem="nMv-Rt-dGa" secondAttribute="centerX" id="60L-Uu-4EU"/>
+                                <constraint firstItem="j3L-GZ-kzd" firstAttribute="centerY" secondItem="nMv-Rt-dGa" secondAttribute="centerY" id="qhY-sP-JgK"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postCell" textLabel="H1H-VG-avX" style="IBUITableViewCellStyleDefault" id="3mX-Kb-mYZ">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
